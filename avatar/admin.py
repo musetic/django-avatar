@@ -8,8 +8,8 @@ from avatar.util import get_user_model
 
 
 class AvatarAdmin(admin.ModelAdmin):
-    list_display = ('get_avatar', 'user', 'primary', "date_uploaded")
-    list_filter = ('primary',)
+    list_display = ('get_avatar', 'user', "date_uploaded")  # Took out 'primary',
+    list_filter = ('user',)
     search_fields = ('user__%s' % getattr(get_user_model(), 'USERNAME_FIELD', 'username'),)
     list_per_page = 50
 
@@ -22,6 +22,5 @@ class AvatarAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         super(AvatarAdmin, self).save_model(request, obj, form, change)
         avatar_updated.send(sender=Avatar, user=request.user, avatar=obj)
-
 
 admin.site.register(Avatar, AvatarAdmin)

@@ -10,6 +10,9 @@ from django.template.defaultfilters import filesizeformat
 from avatar.conf import settings
 from avatar.models import Avatar
 
+from crispy_forms.helper import FormHelper
+from crispy_forms_foundation.layout import Layout, ButtonHolder, Submit, Field
+
 
 def avatar_img(avatar, size):
     if not avatar.thumbnail_exists(size):
@@ -24,8 +27,13 @@ class UploadAvatarForm(forms.Form):
     avatar = forms.ImageField(label=_("avatar"))
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        # self.user = kwargs.pop('user')
         super(UploadAvatarForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+
+    class Meta:
+        model = Avatar()
 
     def clean_avatar(self):
         data = self.cleaned_data['avatar']
@@ -47,30 +55,7 @@ class UploadAvatarForm(forms.Form):
                 'size': filesizeformat(data.size),
                 'max_valid_size': filesizeformat(settings.AVATAR_MAX_SIZE)
             })
-
-        count = Avatar.objects.filter(user=self.user).count()
-        if (settings.AVATAR_MAX_AVATARS_PER_USER > 1 and
-                count >= settings.AVATAR_MAX_AVATARS_PER_USER):
-            error = _("You already have %(nb_avatars)d avatars, "
-                      "and the maximum allowed is %(nb_max_avatars)d.")
-            raise forms.ValidationError(error % {
-                'nb_avatars': count,
-                'nb_max_avatars': settings.AVATAR_MAX_AVATARS_PER_USER,
-            })
         return
-
-
-class PrimaryAvatarForm(forms.Form):
-
-    def __init__(self, *args, **kwargs):
-        kwargs.pop('user')
-        size = kwargs.pop('size', settings.AVATAR_DEFAULT_SIZE)
-        avatars = kwargs.pop('avatars')
-        super(PrimaryAvatarForm, self).__init__(*args, **kwargs)
-        choices = [(avatar.id, avatar_img(avatar, size)) for avatar in avatars]
-        self.fields['choice'] = forms.ChoiceField(label=_("Choices"),
-                                                  choices=choices,
-                                                  widget=widgets.RadioSelect)
 
 
 class DeleteAvatarForm(forms.Form):

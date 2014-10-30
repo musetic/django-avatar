@@ -1,6 +1,6 @@
 from django.core.management.base import NoArgsCommand
 
-from avatar.conf import settings
+from avatar.apps import AvatarSettings as settings
 from avatar.models import Avatar
 
 
