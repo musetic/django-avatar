@@ -14,7 +14,6 @@ class AvatarSettings(object):
     AVATAR_LARGER_SIZE = 200
     AVATAR_RESIZE_METHOD = Image.ANTIALIAS
     AVATAR_STORAGE_DIR = 'avatars'
-    AVATAR_DEFAULT_URL = 'musetic/img/avatars/default-avatar.png'
     AVATAR_MAX_SIZE = 1024 * 1024
     AVATAR_THUMB_FORMAT = 'JPEG'
     AVATAR_THUMB_QUALITY = 85
@@ -23,6 +22,7 @@ class AvatarSettings(object):
     AVATAR_ALLOWED_FILE_EXTS = ('JPEG', 'PNG',)
     AVATAR_CACHE_TIMEOUT = 60 * 60
     AVATAR_STORAGE = settings.DEFAULT_FILE_STORAGE
+	AVATAR_DEFAULT_URL = AVATAR_STORAGE + 'static/musetic/img/avatars/default-avatar.png'
     AVATAR_CLEANUP_DELETED = False
     AVATAR_AUTO_GENERATE_SIZES = (80, 200,)
 
