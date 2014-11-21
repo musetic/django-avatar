@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
 
-from avatar.conf import settings
+from avatar.apps import settings
 from avatar.models import Avatar
 
 from crispy_forms.helper import FormHelper
