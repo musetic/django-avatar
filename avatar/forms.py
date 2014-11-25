@@ -27,7 +27,7 @@ class UploadAvatarForm(forms.Form):
     avatar = forms.ImageField(label=_("avatar"))
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        # self.user = kwargs.pop('user')
         super(UploadAvatarForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'

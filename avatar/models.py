@@ -71,19 +71,6 @@ class Avatar(models.Model):
     def __str__(self):
         return _(six.u('Avatar for %s')) % self.user
 
-    # def save(self, *args, **kwargs):
-    #     avatar = Avatar.objects.filter(user=self.user)
-    #     if self.pk:
-    #         avatar = avatar.exclude(pk=self.pk)
-    #     avatar.update()
-    #     # if Settings.AVATAR_MAX_AVATARS_PER_USER > 1:
-    #     #     if self.primary:
-    #     #         avatars = avatars.filter(primary=True)
-    #     #         avatars.update(primary=False)
-    #     # else:
-    #     #     avatars.delete()
-    #     super(Avatar, self).save(*args, **kwargs)
-
     def thumbnail_exists(self, size):
         return self.avatar.storage.exists(self.avatar_name(size))
 
