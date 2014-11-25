@@ -7,10 +7,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from avatar.apps import settings
-from avatar.forms import PrimaryAvatarForm, DeleteAvatarForm, UploadAvatarForm
+from avatar.forms import DeleteAvatarForm, UploadAvatarForm
 from avatar.models import Avatar
 from avatar.signals import avatar_updated
-from avatar.util import (get_primary_avatar, get_default_avatar_url,
+from avatar.util import (get_default_avatar_url,
                          get_user_model, get_user)
 
 
