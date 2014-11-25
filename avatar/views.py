@@ -86,7 +86,7 @@ def add(request, extra_context=None, next_override=None,
 
 @login_required
 def change(request, extra_context=None, next_override=None,
-           upload_form=UploadAvatarForm, primary_form=PrimaryAvatarForm,
+           upload_form=UploadAvatarForm,
            *args, **kwargs):
     if extra_context is None:
         extra_context = {}
@@ -96,15 +96,15 @@ def change(request, extra_context=None, next_override=None,
     else:
         kwargs = {}
     upload_avatar_form = upload_form(user=request.user, **kwargs)
-    primary_avatar_form = primary_form(request.POST or None,
-                                       user=request.user,
-                                       avatars=avatars, **kwargs)
+    # primary_avatar_form = primary_form(request.POST or None,
+    #                                    user=request.user,
+    #                                    avatars=avatars, **kwargs)
     if request.method == "POST":
         updated = False
-        if 'choice' in request.POST and primary_avatar_form.is_valid():
-            avatar = Avatar.objects.get(
-                id=primary_avatar_form.cleaned_data['choice'])
-            avatar.primary = True
+        if 'choice' in request.POST:
+            # avatar = Avatar.objects.get(
+            #     id=primary_avatar_form.cleaned_data['choice'])
+            # avatar.primary = True
             avatar.save()
             updated = True
             messages.success(request, _("Successfully updated your avatar."))
@@ -116,7 +116,6 @@ def change(request, extra_context=None, next_override=None,
         'avatar': avatar,
         'avatars': avatars,
         'upload_avatar_form': upload_avatar_form,
-        'primary_avatar_form': primary_avatar_form,
         'next': next_override or _get_next(request)
     }
     context.update(extra_context)
@@ -138,7 +137,7 @@ def delete(request, extra_context=None, next_override=None, *args, **kwargs):
                 # Find the next best avatar, and set it as the new primary
                 for a in avatars:
                     if six.text_type(a.id) not in ids:
-                        a.primary = True
+                        # a.primary = True
                         a.save()
                         avatar_updated.send(sender=Avatar, user=request.user,
                                             avatar=avatar)
@@ -220,7 +219,7 @@ def avatar(request, username, id, template_name="avatar/avatar.html"):
 
 def render_primary(request, user=None, size=settings.AVATAR_DEFAULT_SIZE):
     size = int(size)
-    avatar = get_primary_avatar(user, size=size)
+    # avatar = get_primary_avatar(user, size=size)
     if avatar:
         # FIXME: later, add an option to render the resized avatar dynamically
         # instead of redirecting to an already created static file. This could
